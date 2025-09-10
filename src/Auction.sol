@@ -4,7 +4,7 @@ pragma solidity ^0.8.26;
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 
-contract EnglishAuction is Ownable{
+contract EnglishAuction is Ownable {
     event Start();
     event Bid(address indexed sender, uint256 amount);
     event Withdraw(address indexed bidder, uint256 amount);
@@ -22,7 +22,7 @@ contract EnglishAuction is Ownable{
     uint256 public highestBid;
     mapping(address => uint256) public bids;
 
-    constructor(address _nft, uint256 _nftId, uint256 _startingBid) Ownable(msg.sender){
+    constructor(address _nft, uint256 _nftId, uint256 _startingBid) Ownable(msg.sender) {
         nft = IERC721(_nft);
         nftId = _nftId;
 
@@ -30,7 +30,7 @@ contract EnglishAuction is Ownable{
         highestBid = _startingBid;
     }
 
-    function start() external onlyOwner{
+    function start() external onlyOwner {
         require(!started, "started");
         require(msg.sender == seller, "not seller");
 

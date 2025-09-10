@@ -8,8 +8,8 @@ import {MockERC20} from "../src/mock/MockERC20.sol";
 import {StakingRewards} from "../src/Rewards.sol";
 
 contract Rewards_Test is Test {
-    
     event Log(string message);
+
     address payable admin;
     address payable staker1;
     address payable staker2;
@@ -22,30 +22,30 @@ contract Rewards_Test is Test {
 
     function setUp() public {
         // create accounts
-        admin = payable(makeAddr({ name: "Admin" }));
-        staker1 = payable(makeAddr({ name: "Staker1" }));
-        staker2 = payable(makeAddr({ name: "Staker2" }));
-        vm.startPrank({ msgSender: admin });
-        usdt = new MockERC20('USDT', 'USDT');
-        dai = new MockERC20('DAI', 'DAI');
+        admin = payable(makeAddr({name: "Admin"}));
+        staker1 = payable(makeAddr({name: "Staker1"}));
+        staker2 = payable(makeAddr({name: "Staker2"}));
+        vm.startPrank({msgSender: admin});
+        usdt = new MockERC20("USDT", "USDT");
+        dai = new MockERC20("DAI", "DAI");
         vm.stopPrank();
         // Labels
-        vm.label({ account: address(dai), newLabel: "stakingToken" });
-        vm.label({ account: address(usdt), newLabel: "rewardToken" });
-        vm.label({ account: admin, newLabel: "admin" });
-        vm.label({ account: staker1, newLabel: "staker1" });
-        vm.label({ account: staker2, newLabel: "staker2" });
+        vm.label({account: address(dai), newLabel: "stakingToken"});
+        vm.label({account: address(usdt), newLabel: "rewardToken"});
+        vm.label({account: admin, newLabel: "admin"});
+        vm.label({account: staker1, newLabel: "staker1"});
+        vm.label({account: staker2, newLabel: "staker2"});
 
-        vm.deal({ account: admin, newBalance: 100 ether });
-        vm.deal({ account: staker1, newBalance: 100 ether });
-        vm.deal({ account: staker2, newBalance: 100 ether });
-        deal({ token: address(dai), to: staker1, give: 1_000_000e18 });
-        deal({ token: address(dai), to: staker2, give: 1_000_000e18 });
+        vm.deal({account: admin, newBalance: 100 ether});
+        vm.deal({account: staker1, newBalance: 100 ether});
+        vm.deal({account: staker2, newBalance: 100 ether});
+        deal({token: address(dai), to: staker1, give: 1_000_000e18});
+        deal({token: address(dai), to: staker2, give: 1_000_000e18});
         vm.startPrank(admin);
         stakingPool = new StakingRewards(address(dai), address(usdt));
-        vm.label({ account: address(stakingPool), newLabel: "StakingPool" });
+        vm.label({account: address(stakingPool), newLabel: "StakingPool"});
         assertEq(stakingPool.owner(), admin);
-        
+
         stakingPool.setRewardsDuration(duration);
         usdt.transfer(address(stakingPool), allRewardAmount);
         stakingPool.notifyRewardAmount(allRewardAmount);
@@ -67,7 +67,7 @@ contract Rewards_Test is Test {
         uint256 stakeAmount = 100e18;
         stakingPool.stake(stakeAmount);
         assertEq(stakingPool.balanceOf(staker1), stakeAmount);
-        vm.warp({ newTimestamp: stakingPool.finishAt() + 1 });
+        vm.warp({newTimestamp: stakingPool.finishAt() + 1});
         assertEq(stakingPool.earned(staker1), allRewardAmount);
         stakingPool.getReward();
         assertEq(usdt.balanceOf(staker1), allRewardAmount);
@@ -114,7 +114,7 @@ contract Rewards_Test is Test {
     /// forge-config: default.fuzz.runs = 100
     function testFuzz_stake_different_stakers(uint8 index) public {
         address staker = payable(makeAddr(string(abi.encodePacked("user_", index))));
-        deal({ token: address(dai), to: staker, give: 1_000_000e18 });
+        deal({token: address(dai), to: staker, give: 1_000_000e18});
         uint256 amountToStake = 1000e18;
         vm.startPrank(staker);
         dai.approve(address(stakingPool), dai.balanceOf(staker));

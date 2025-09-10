@@ -5,11 +5,7 @@ import {ERC4626} from "@openzeppelin/contracts/token/ERC20/extensions/ERC4626.so
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 contract Vault is ERC4626 {
-
-	constructor(IERC20 asset_, string memory name_, string memory symbol_) 
-	    ERC4626(asset_)
-	    ERC20(name_, symbol_)
-	{}
+    constructor(IERC20 asset_, string memory name_, string memory symbol_) ERC4626(asset_) ERC20(name_, symbol_) {}
 
     function _deposit(address caller, address receiver, uint256 assets, uint256 shares) internal override {
         // If asset() is ERC-777, `transferFrom` can trigger a reentrancy BEFORE the transfer happens through the

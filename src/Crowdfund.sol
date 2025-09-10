@@ -4,14 +4,8 @@ pragma solidity ^0.8.26;
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
-contract CrowdFund is Ownable{
-    event Launch(
-        uint256 id,
-        address indexed creator,
-        uint256 goal,
-        uint32 startAt,
-        uint32 endAt
-    );
+contract CrowdFund is Ownable {
+    event Launch(uint256 id, address indexed creator, uint256 goal, uint32 startAt, uint32 endAt);
     event Cancel(uint256 id);
     event Pledge(uint256 indexed id, address indexed caller, uint256 amount);
     event Unpledge(uint256 indexed id, address indexed caller, uint256 amount);
@@ -42,7 +36,7 @@ contract CrowdFund is Ownable{
     // Mapping from campaign id => pledger => amount pledged
     mapping(uint256 => mapping(address => uint256)) public pledgedAmount;
 
-    constructor(address _token) Ownable(msg.sender){
+    constructor(address _token) Ownable(msg.sender) {
         token = IERC20(_token);
     }
 
@@ -52,14 +46,8 @@ contract CrowdFund is Ownable{
         require(_endAt <= block.timestamp + 90 days, "end at > max duration");
 
         count += 1;
-        campaigns[count] = Campaign({
-            creator: msg.sender,
-            goal: _goal,
-            pledged: 0,
-            startAt: _startAt,
-            endAt: _endAt,
-            claimed: false
-        });
+        campaigns[count] =
+            Campaign({creator: msg.sender, goal: _goal, pledged: 0, startAt: _startAt, endAt: _endAt, claimed: false});
 
         emit Launch(count, msg.sender, _goal, _startAt, _endAt);
     }

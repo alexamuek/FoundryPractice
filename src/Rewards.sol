@@ -4,7 +4,7 @@ pragma solidity ^0.8.26;
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
-contract StakingRewards is Ownable{
+contract StakingRewards is Ownable {
     IERC20 public immutable stakingToken;
     IERC20 public immutable rewardsToken;
 
@@ -29,7 +29,7 @@ contract StakingRewards is Ownable{
     mapping(address => uint256) public balanceOf;
     mapping(address => bool) public whiteList;
 
-    constructor(address _stakingToken, address _rewardToken) Ownable(msg.sender){
+    constructor(address _stakingToken, address _rewardToken) Ownable(msg.sender) {
         stakingToken = IERC20(_stakingToken);
         rewardsToken = IERC20(_rewardToken);
     }
@@ -55,9 +55,7 @@ contract StakingRewards is Ownable{
             return rewardPerTokenStored;
         }
 
-        return rewardPerTokenStored
-            + (rewardRate * (lastTimeRewardApplicable() - updatedAt) * 1e18)
-                / totalSupply;
+        return rewardPerTokenStored + (rewardRate * (lastTimeRewardApplicable() - updatedAt) * 1e18) / totalSupply;
     }
 
     function addToWhiteList(address _staker) external onlyOwner {
@@ -80,12 +78,8 @@ contract StakingRewards is Ownable{
     }
 
     function earned(address _account) public view returns (uint256) {
-        return (
-            (
-                balanceOf[_account]
-                    * (rewardPerToken() - userRewardPerTokenPaid[_account])
-            ) / 1e18
-        ) + rewards[_account];
+        return
+            ((balanceOf[_account] * (rewardPerToken() - userRewardPerTokenPaid[_account])) / 1e18) + rewards[_account];
     }
 
     function getReward() external updateReward(msg.sender) {
@@ -101,11 +95,7 @@ contract StakingRewards is Ownable{
         duration = _duration;
     }
 
-    function notifyRewardAmount(uint256 _amount)
-        external
-        onlyOwner
-        updateReward(address(0))
-    {
+    function notifyRewardAmount(uint256 _amount) external onlyOwner updateReward(address(0)) {
         if (block.timestamp >= finishAt) {
             rewardRate = _amount / duration;
         } else {
@@ -114,10 +104,7 @@ contract StakingRewards is Ownable{
         }
 
         require(rewardRate > 0, "reward rate = 0");
-        require(
-            rewardRate * duration <= rewardsToken.balanceOf(address(this)),
-            "reward amount > balance"
-        );
+        require(rewardRate * duration <= rewardsToken.balanceOf(address(this)), "reward amount > balance");
 
         finishAt = block.timestamp + duration;
         updatedAt = block.timestamp;
