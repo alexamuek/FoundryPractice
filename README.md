@@ -64,3 +64,9 @@ $ forge --help
 $ anvil --help
 $ cast --help
 ```
+
+To run fork tests run ```source .env```  
+
+Install libs:  
+- forge install Openzeppelin/openzeppelin-contracts  
+
