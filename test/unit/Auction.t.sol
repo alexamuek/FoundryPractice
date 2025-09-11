@@ -4,8 +4,8 @@ pragma solidity ^0.8.13;
 import {Test, console2} from "forge-std/Test.sol";
 import {Address} from "@openzeppelin/contracts/utils/Address.sol";
 import "forge-std/console.sol";
-import {MockERC721} from "../src/mock/MockERC721.sol";
-import {EnglishAuction} from "../src/Auction.sol";
+import {MockERC721} from "../../src/mock/MockERC721.sol";
+import {EnglishAuction} from "../../src/Auction.sol";
 
 contract Auction_Test is Test {
     event Log(string message);

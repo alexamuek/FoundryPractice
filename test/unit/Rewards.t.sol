@@ -4,11 +4,10 @@ pragma solidity ^0.8.13;
 import {Test, console2} from "forge-std/Test.sol";
 import {Address} from "@openzeppelin/contracts/utils/Address.sol";
 import "forge-std/console.sol";
-import {MockERC20} from "../src/mock/MockERC20.sol";
-import {StakingRewards} from "../src/Rewards.sol";
+import {MockERC20} from "../../src/mock/MockERC20.sol";
+import {StakingRewards} from "../../src/Rewards.sol";
 
 contract Rewards_Test is Test {
-    event Log(string message);
 
     address payable admin;
     address payable staker1;

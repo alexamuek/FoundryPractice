@@ -2,8 +2,8 @@
 pragma solidity ^0.8.13;
 
 import {Test, console2} from "forge-std/Test.sol";
-import {Vault} from "../src/Vault.sol";
-import {VaultManager} from "../src/VaultManager.sol";
+import {Vault} from "../../src/Vault.sol";
+import {VaultManager} from "../../src/VaultManager.sol";
 import {IERC20} from "@openzeppelin/contracts/interfaces/IERC20.sol";
 
 contract Vault_Test is Test {
